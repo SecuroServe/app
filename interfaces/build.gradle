@@ -1,0 +1,10 @@
+apply plugin: 'java'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':librar')
+    compile ('org.springframework.restdocs:spring-restdocs-mockmvc:1.1.2.RELEASE')
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

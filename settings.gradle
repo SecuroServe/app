@@ -1,1 +1,3 @@
-include ':mobile', ':wear'
+include ':librar', ':interfaces'
+include(':mobile')
+include(':wear')
