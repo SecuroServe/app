@@ -7,9 +7,9 @@
             android:icon="@mipmap/ic_menu_warning"
             android:title="Calamities"/>
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_add_alert"
+            android:icon="@mipmap/ic_add_alert_black_48dp"
+            android:title="Add alert" />
     </group>
 
     <item android:title="Account">

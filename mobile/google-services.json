@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "678973236448",
+    "firebase_url": "https://securoserve-1bc82.firebaseio.com",
+    "project_id": "securoserve-1bc82",
+    "storage_bucket": "securoserve-1bc82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678973236448:android:5d664703dcbd3714",
+        "android_client_info": {
+          "package_name": "com.edu.securoserve.securoserve"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678973236448-4as6st7usgns5m1ts75ca51pnplqmb7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO8OYivqMyKKKQROxoJVptwSZqlnmbx-8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

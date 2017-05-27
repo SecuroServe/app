@@ -1,11 +1,18 @@
 package com.edu.securoserve.securoserve;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,15 +22,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.edu.securoserve.securoserve.Manifest.permission;
 import com.edu.securoserve.securoserve.requests.LoginRequest;
 import com.edu.securoserve.securoserve.requests.UserRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import interfaces.ConfirmationMessage;
 import library.User;
 
 public class LoginActivity extends AppCompatActivity {
+
+    public  static final int PERMISSIONS_MULTIPLE_REQUEST = 123;
 
     private EditText username;
     private EditText password;
@@ -95,6 +107,9 @@ public class LoginActivity extends AppCompatActivity {
 
                         ObjectMapper mapper = new ObjectMapper();
                         SessionData.getInstance().addValue(SessionData.CURRENT_USER, mapper.convertValue(value.getReturnObject(), User.class));
+                        ConfirmationMessage message = userRequest.giveUserToken(
+                                ((User)SessionData.getInstance().getValue(SessionData.CURRENT_USER)).getToken(),
+                                (String)SessionData.getInstance().getValue(SessionData.FIREBASE_TOKEN));
 
                         startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
                     }

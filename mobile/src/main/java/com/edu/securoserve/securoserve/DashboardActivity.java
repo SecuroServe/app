@@ -57,8 +57,10 @@ public class DashboardActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.nav_add_alert) {
+
+            startActivity(new Intent(getApplicationContext(), AddAlertActivity.class));
+
         } else if (id == R.id.nav_calamities) {
 
             startActivity(new Intent(getApplicationContext(), CalamitiesActivity.class));
