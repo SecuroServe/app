@@ -13,6 +13,7 @@ public class RequestUtils {
 
     // Strings for Calamity
     public static final String ALL_CALAMITY = "allcalamity";
+    public static final String UPDATE_CALAMITY = "updatecalamity";
 
     //Strings for User
     public static final String GET_USER = "getuser";

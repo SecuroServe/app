@@ -43,7 +43,22 @@ public class CalamityRequest implements ICalamity{
 
     @Override
     public ConfirmationMessage updateCalamity(String token, int id, String name, String message, int locId, double latitude, double longitude, double radius, boolean confirmed, boolean closed) {
-        throw new UnsupportedOperationException();
+        MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
+        parameters.add("token", token);
+        parameters.add("id", id);
+        parameters.add("title", name);
+        parameters.add("message", message);
+        parameters.add("locationid", locId);
+        parameters.add("latitude", latitude);
+        parameters.add("longitude", longitude);
+        parameters.add("radius", radius);
+        parameters.add("confirmed", confirmed);
+        parameters.add("closed", closed);
+
+        Object value = restClient.request(RequestUtils.REQUEST_PREFIX + RequestUtils.UPDATE_CALAMITY, RestClient.RequestType.GET, parameters);
+        ObjectMapper mapper = new ObjectMapper();
+
+        return  mapper.convertValue(value, ConfirmationMessage.class);
     }
 
     @Override

@@ -1,11 +1,8 @@
 package library;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
  * Created by Jandie on 2017-05-08.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class MediaFile extends Media {
     private String fileName;
 

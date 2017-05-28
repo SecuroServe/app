@@ -64,4 +64,9 @@ public class UserRequest implements IUser {
         Object value = restClient.request(RequestUtils.REQUEST_PREFIX + RequestUtils.SET_FIREBASE_TOKEN, RestClient.RequestType.GET, parameters);
         return objectMapper.convertValue(value, ConfirmationMessage.class);
     }
+
+    @Override
+    public ConfirmationMessage askInformation(String userToken, int userId) {
+        throw  new UnsupportedOperationException();
+    }
 }

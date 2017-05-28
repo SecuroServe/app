@@ -1,7 +1,6 @@
 package library;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import exceptions.NoPermissionException;
 
 import java.io.Serializable;
@@ -12,7 +11,7 @@ import java.util.List;
  * Created by Jandie on 13-3-2017.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserType implements Serializable{
+public class UserType implements Serializable {
 
     private String name;
     private List<Permission> permissions;
@@ -22,10 +21,7 @@ public class UserType implements Serializable{
         permissions = new ArrayList<>();
     }
 
-    public UserType() { }
-
-    public void setName(String name) {
-        this.name = name;
+    public UserType() {
     }
 
     public List<Permission> getPermissions() {
@@ -38,6 +34,10 @@ public class UserType implements Serializable{
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void addPermission(Permission permission) {
@@ -67,6 +67,8 @@ public class UserType implements Serializable{
         CALAMITY_DELETE_ASSIGNEE,
         USER_REGISTER,
         USER_DELETE,
-        USER_UPDATE
+        USER_NOTIFY,
+        SET_FIREBASE_TOKEN,
+        USER_UPDATE,
     }
 }
