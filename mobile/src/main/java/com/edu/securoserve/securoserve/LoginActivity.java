@@ -107,9 +107,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         ObjectMapper mapper = new ObjectMapper();
                         SessionData.getInstance().addValue(SessionData.CURRENT_USER, mapper.convertValue(value.getReturnObject(), User.class));
-                        ConfirmationMessage message = userRequest.giveUserToken(
-                                ((User)SessionData.getInstance().getValue(SessionData.CURRENT_USER)).getToken(),
-                                (String)SessionData.getInstance().getValue(SessionData.FIREBASE_TOKEN));
+
+                        if(SessionData.getInstance().getValue(SessionData.FIREBASE_TOKEN) != null) {
+                            ConfirmationMessage message = userRequest.giveUserToken(
+                                    ((User)SessionData.getInstance().getValue(SessionData.CURRENT_USER)).getToken(),
+                                    (String)SessionData.getInstance().getValue(SessionData.FIREBASE_TOKEN));
+                        }
 
                         startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
                     }

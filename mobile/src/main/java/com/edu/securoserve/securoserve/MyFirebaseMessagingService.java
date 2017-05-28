@@ -29,8 +29,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // ...
 
+        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
+        Log.d(TAG, "From: " + remoteMessage.getFrom());
+
+        // Check if message contains a data payload.
+        if (remoteMessage.getData().size() > 0) {
+            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+        }
+
+        // Check if message contains a notification payload.
+        if (remoteMessage.getNotification() != null) {
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+        }
+
+
+        // Create Notification and show it.
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent resultIntent = new Intent(this, CalamitiesActivity.class);
@@ -50,30 +64,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
         notificationManager.notify(0, builder.build());
-
-//        Notification notification = new Notification.Builder(this)
-//                .setContentTitle(remoteMessage.getData().get("TITLE"))
-//                .setContentText(remoteMessage.getData().get("TEXT"))
-//                .setSmallIcon(R.mipmap.ic_launcher)
-//                .build();
-//        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getApplicationContext());
-//        managerCompat.notify(123, notification);
-
-        // TODO(developer): Handle FCM messages here.
-        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-        }
-
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-        }
-
-        // Also if you intend on generating your own notifications as a result of a received FCM
-        // message, here is where that should be initiated. See sendNotification method below.
     }
 }

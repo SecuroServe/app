@@ -11,6 +11,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import interfaces.ConfirmationMessage;
+import library.User;
 
 /**
  * Created by guillaimejanssen on 23/05/2017.
@@ -27,13 +28,11 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      */
     @Override
     public void onTokenRefresh() {
+
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
         sendRegistrationToServer(refreshedToken);
     }
 
@@ -46,6 +45,13 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
+        UserRequest userRequest = new UserRequest();
         SessionData.getInstance().addValue(SessionData.FIREBASE_TOKEN, token);
+
+        if(SessionData.getInstance().getValue(SessionData.CURRENT_USER) != null) {
+            ConfirmationMessage message = userRequest.giveUserToken(
+                    ((User)SessionData.getInstance().getValue(SessionData.CURRENT_USER)).getToken(),
+                    (String)SessionData.getInstance().getValue(SessionData.FIREBASE_TOKEN));
+        }
     }
 }
