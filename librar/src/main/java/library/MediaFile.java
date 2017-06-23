@@ -1,9 +1,11 @@
 package library;
 
+import java.io.Serializable;
+
 /**
  * Created by Jandie on 2017-05-08.
  */
-public class MediaFile extends Media {
+public class MediaFile extends Media implements Serializable {
     private String fileName;
 
     private FileType fileType;

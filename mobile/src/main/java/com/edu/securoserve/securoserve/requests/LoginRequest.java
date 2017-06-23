@@ -32,4 +32,9 @@ public class LoginRequest implements ILogin {
         ObjectMapper mapper = new ObjectMapper();
         return (ConfirmationMessage) mapper.convertValue(value, ConfirmationMessage.class);
     }
+
+    @Override
+    public ConfirmationMessage register(String username, String password1, String password2, String email, String city) {
+        return null;
+    }
 }

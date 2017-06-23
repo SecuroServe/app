@@ -1,24 +1,40 @@
 package com.edu.securoserve.securoserve;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.edu.securoserve.securoserve.network.MediaAlertNetworkTask;
+import com.edu.securoserve.securoserve.requests.AlertRequest;
 import com.edu.securoserve.securoserve.requests.CalamityRequest;
+import com.edu.securoserve.securoserve.requests.MediaRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.ByteArrayOutputStream;
+import java.util.concurrent.ExecutionException;
+
+import interfaces.ConfirmationMessage;
+import library.Alert;
 import library.Calamity;
+import library.Media;
+import library.MediaFile;
 import library.User;
 
 public class CalamityActivity extends AppCompatActivity {
@@ -28,19 +44,16 @@ public class CalamityActivity extends AppCompatActivity {
     private TextView message;
     private ImageButton editContentButton;
     private ImageButton uploadContentButton;
+    private ImageView imageView;
     
     // Camera activity request codes
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
-    private static final int CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200;
 
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
-
-    private Uri fileUri; // file url to store image/video
-    private String m_Text = "";
     private Calamity calamity;
 
     private CalamityRequest calamityRequest;
+    private AlertRequest alertRequest;
+    private MediaRequest mediaRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +61,14 @@ public class CalamityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calamity);
 
         this.calamityRequest = new CalamityRequest();
+        this.alertRequest = new AlertRequest();
+        this.mediaRequest = new MediaRequest();
 
         title = (TextView) findViewById(R.id.calamityTitle);
         message = (TextView) findViewById(R.id.calamityInformation);
         uploadContentButton = (ImageButton) findViewById(R.id.add_image_button);
         editContentButton = (ImageButton) findViewById(R.id.edit_content_button);
+        imageView = (ImageView) findViewById(R.id.testImageView);
 
         this.calamity = (Calamity) getIntent().getSerializableExtra("CALAMITY");
         title.setText(calamity.getTitle());
@@ -64,14 +80,9 @@ public class CalamityActivity extends AppCompatActivity {
                 createTextDialog();
             }
         });
-
         uploadContentButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                captureImage();
-                //Intent intent = new Intent(CalamityActivity.this , UploadActivity.class);
-                //intent.putExtra("CALAMITY", calamity);
-                //startActivity(intent);
+            public void onClick(View v) {dispatchTakePictureIntent();
             }
         });
     }
@@ -120,12 +131,53 @@ public class CalamityActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap image = (Bitmap) extras.get("data");
+
+            try {
+                imageView.setImageBitmap(image);
+                new MediaAlertNetworkTask(getApplicationContext(), image, calamity.getId()).execute(
+                        ((User)SessionData.getInstance().getValue(SessionData.CURRENT_USER)).getToken(),
+                        "Media for calamity@" + System.currentTimeMillis(), "No description available").get();
+
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    private void captureImage() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // start the image capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+        }
     }
+
+//    private class RetrieveFeedTask extends AsyncTask<String, Void, ConfirmationMessage> {
+//        @Override
+//        protected ConfirmationMessage doInBackground(String... params) {
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(final ConfirmationMessage confirmationMessage) {
+//            super.onPostExecute(confirmationMessage);
+//
+//            if(message.getStatus().equals(ConfirmationMessage.StatusType.SUCCES)) {
+//
+//                Media media = mapper.convertValue(message, Media.class);
+//
+//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                byte[] byteArray = stream.toByteArray();
+//
+//                MultipartFile multipartFile = new MockMultipartFile("image", byteArray);
+//                ConfirmationMessage m1 = mediaRequest.uploadMedia(userToken, media.getId(), multipartFile);
+//
+//            } else if (message.getStatus().equals(ConfirmationMessage.StatusType.ERROR)) {
+//
+//            }
+//        }
+//    }
 }

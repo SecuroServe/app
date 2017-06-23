@@ -1,9 +1,11 @@
 package library;
 
+import java.io.Serializable;
+
 /**
  * Created by Jandie on 2017-05-08.
  */
-public class Text extends Media {
+public class Text extends Media implements Serializable {
     private String text;
 
     public Text(int id, String name, String text) {

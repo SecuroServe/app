@@ -52,4 +52,8 @@ public class SessionData {
     public void clearValues() {
         this.sessionValues.clear();
     }
+
+    public void clearValue(String key) {
+        this.sessionValues.remove(key);
+    }
 }

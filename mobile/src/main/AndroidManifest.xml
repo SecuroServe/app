@@ -13,6 +13,8 @@
 
     <!-- Needed only if your app targets Android 5.0 (API level 21) or higher. -->
     <uses-feature android:name="android.hardware.location.gps" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -49,27 +51,27 @@
         <!-- Activity's -->
         <activity
             android:name=".LoginActivity"
-            android:label="Login">
+            android:label="SecuroServe">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".DashboardActivity"
-            android:label="Dashboard"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Dashboard" />
         <activity
             android:name=".CalamitiesActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="Calamities" />
         <activity
             android:name=".CalamityActivity"
             android:label="Calamity" />
         <activity
             android:name=".AddAlertActivity"
-            android:label="@string/title_activity_add_alert"/>
-
+            android:theme="@style/AppTheme"
+            android:label="Add Alert"/>
     </application>
 
 </manifest>

@@ -53,10 +53,7 @@ dependencies {
     compile project(':interfaces')
 
     compile files('libs/httpclient-4.2.3.jar')
-
-
-
-
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.2'
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.11'
     compile 'org.apache.httpcomponents:httpclient:4.3.5'

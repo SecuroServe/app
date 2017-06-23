@@ -10,6 +10,7 @@ public class RequestUtils {
 
     // Strings for Alert
     public static final String ADD_ALERT = "addalert";
+    public static final String ADD_ALERT_TO_CALAMITY = "addalerttocalamity";
 
     // Strings for Calamity
     public static final String ALL_CALAMITY = "allcalamity";
@@ -18,4 +19,8 @@ public class RequestUtils {
     //Strings for User
     public static final String GET_USER = "getuser";
     public static final String SET_FIREBASE_TOKEN = "setfirebasetoken";
+
+    //Strings for Media
+    public static final String ADD_MEDIA = "addmediafile";
+    public static final String UPLOAD_MEDIA = "uploadmediafile";
 }

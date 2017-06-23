@@ -39,6 +39,11 @@ public class AlertRequest implements IAlert {
     }
 
     @Override
+    public ConfirmationMessage getNearbyAlerts(String token, Location location, int radius) {
+        return null;
+    }
+
+    @Override
     public ConfirmationMessage addAlert(String token, String name, String description, int urgency, double lat, double lon, double radius) {
         MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
 
@@ -60,6 +65,24 @@ public class AlertRequest implements IAlert {
         }
 
         return null;
+    }
+
+    @Override
+    public ConfirmationMessage addAlertToCalamity(String token, String name, String description, int urgency, double lat, double lon, double radius, int calamityId) {
+        MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
+
+        parameters.add("token", token);
+        parameters.add("name", name);
+        parameters.add("description", description);
+        parameters.add("urgency", urgency);
+        parameters.add("latitude", lat);
+        parameters.add("longitude", lon);
+        parameters.add("radius", radius);
+        parameters.add("calamityid", calamityId);
+
+        Object value = this.restClient.request(RequestUtils.REQUEST_PREFIX + RequestUtils.ADD_ALERT_TO_CALAMITY, RestClient.RequestType.GET, parameters);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.convertValue(value, ConfirmationMessage.class);
     }
 
     @Override
