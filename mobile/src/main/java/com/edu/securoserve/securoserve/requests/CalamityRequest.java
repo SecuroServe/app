@@ -8,6 +8,7 @@ import org.springframework.util.MultiValueMap;
 
 import interfaces.ConfirmationMessage;
 import interfaces.ICalamity;
+import library.Plan;
 
 /**
  * Created by guillaimejanssen on 22/05/2017.
@@ -73,6 +74,16 @@ public class CalamityRequest implements ICalamity{
 
     @Override
     public ConfirmationMessage deleteCalamityAssignee(String token, int calamityId, int userId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ConfirmationMessage addPost(String token, int userId, int calamityId, String text) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ConfirmationMessage addPlan(String token, int calamityId, Plan plan) {
         throw new UnsupportedOperationException();
     }
 }

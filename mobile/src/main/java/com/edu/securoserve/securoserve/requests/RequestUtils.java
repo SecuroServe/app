@@ -6,7 +6,7 @@ package com.edu.securoserve.securoserve.requests;
 
 public class RequestUtils {
 
-    public static final String REQUEST_PREFIX = "http://192.168.1.218:8080/";
+    public static final String REQUEST_PREFIX = "https://www.securoserve.nl/api/";
 
     // Strings for Alert
     public static final String ADD_ALERT = "addalert";

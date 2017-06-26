@@ -39,40 +39,43 @@ import library.User;
 
 public class CalamityActivity extends AppCompatActivity {
 
-    private static final String TAG = CalamityActivity.class.getSimpleName();
+    // Request Codes
+    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+
     private TextView title;
     private TextView message;
+    private TextView plan;
+
     private ImageButton editContentButton;
     private ImageButton uploadContentButton;
-    private ImageView imageView;
-    
-    // Camera activity request codes
-    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
 
     private Calamity calamity;
 
     private CalamityRequest calamityRequest;
-    private AlertRequest alertRequest;
-    private MediaRequest mediaRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calamity);
 
-        this.calamityRequest = new CalamityRequest();
-        this.alertRequest = new AlertRequest();
-        this.mediaRequest = new MediaRequest();
+        calamityRequest = new CalamityRequest();
+        calamity = (Calamity) getIntent().getSerializableExtra("CALAMITY");
 
         title = (TextView) findViewById(R.id.calamityTitle);
         message = (TextView) findViewById(R.id.calamityInformation);
-        uploadContentButton = (ImageButton) findViewById(R.id.add_image_button);
-        editContentButton = (ImageButton) findViewById(R.id.edit_content_button);
-        imageView = (ImageView) findViewById(R.id.testImageView);
+        plan = (TextView) findViewById(R.id.calamityPlan);
 
-        this.calamity = (Calamity) getIntent().getSerializableExtra("CALAMITY");
+//        uploadContentButton = (ImageButton) findViewById(R.id.add_image_button);
+        editContentButton = (ImageButton) findViewById(R.id.edit_content_button);
+
         title.setText(calamity.getTitle());
         message.setText(calamity.getMessage());
+        if(calamity.getPlan() != null) {
+            plan.setText(calamity.getPlan().getDescription());
+        } else {
+            plan.setText("There is no plan available right now!");
+        }
+
 
         editContentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,11 +83,11 @@ public class CalamityActivity extends AppCompatActivity {
                 createTextDialog();
             }
         });
-        uploadContentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {dispatchTakePictureIntent();
-            }
-        });
+//        uploadContentButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {dispatchTakePictureIntent();
+//            }
+//        });
     }
 
     private void createTextDialog() {
@@ -128,31 +131,30 @@ public class CalamityActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+//            Bundle extras = data.getExtras();
+//            Bitmap image = (Bitmap) extras.get("data");
+//
+//            try {
+//                new MediaAlertNetworkTask(getApplicationContext(), image, calamity.getId()).execute(
+//                        ((User)SessionData.getInstance().getValue(SessionData.CURRENT_USER)).getToken(),
+//                        "Media for calamity@" + System.currentTimeMillis(), "No description available").get();
+//
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap image = (Bitmap) extras.get("data");
-
-            try {
-                imageView.setImageBitmap(image);
-                new MediaAlertNetworkTask(getApplicationContext(), image, calamity.getId()).execute(
-                        ((User)SessionData.getInstance().getValue(SessionData.CURRENT_USER)).getToken(),
-                        "Media for calamity@" + System.currentTimeMillis(), "No description available").get();
-
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
-        }
-    }
+//    private void dispatchTakePictureIntent() {
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(takePictureIntent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+//        }
+//    }
 
 //    private class RetrieveFeedTask extends AsyncTask<String, Void, ConfirmationMessage> {
 //        @Override

@@ -229,7 +229,7 @@ public class CalamitiesActivity extends AppCompatActivity implements LocationLis
                         } else if (filter[which].equals("Your location (10km)")){
                             selectedFilter = Filter.YOUR_LOCATION;
                         }
-                        
+
                         changeList();
                     }
                 });
